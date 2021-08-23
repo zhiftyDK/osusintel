@@ -73,5 +73,24 @@ firebase.database().ref('chats/').on('value', function(messages_object){
             message.innerHTML = `<div style='color: black; display: inline-block; text-align: start; margin: 10px; padding: 0px;'><p style='margin: 0px; padding: 0px;'><strong>${chatName}</strong></p><p style='font-size: 15px;'>${chatMessage}</+></div>`;
             document.getElementById("discussionChat").appendChild(message);
         }
+        const div = document.getElementById("discussionChat");
+        div.scrollTop = div.scrollHeight - div.clientHeight;
     }
 })
+
+// if(!document.getElementById("discussions").offsetWidth > 0 && !document.getElementById("discussions").offsetHeight > 0){
+//     if(Notification.permission == "granted"){
+//         const notiChatMessage = eval(`messages_object.val().message_${Object.values(messages_object.val()).length}.message`);
+//         const chatName = eval(`messages_object.val().message_${Object.values(messages_object.val()).length}.name`);
+//         var notification = new Notification(chatName, {
+//             body: notiChatMessage
+//         });
+//         notification.onclick = function () {
+//             window.focus();
+//             discussionsPage();
+//         };
+//     }
+//     else if(Notification.permission != "denied"){
+//         Notification.requestPermission();
+//     }
+// }
