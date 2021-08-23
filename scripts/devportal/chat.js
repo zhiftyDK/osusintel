@@ -41,7 +41,6 @@ chatInput.addEventListener("keyup", function(event) {
                     if(displayName && chatInput.value != ""){
                         firebase.database().ref('chats/').once('value', function(message_object){
                             var index = parseFloat(message_object.numChildren()) + 1
-                            console.log(index);
                             firebase.database().ref('chats/' + `message_${index}`).set({
                               name: displayName,
                               message: chatInput.value,
