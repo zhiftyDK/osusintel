@@ -5,6 +5,7 @@ function discussionsPage(){
     document.getElementById("discussions").style.display = "block";
     const div = document.getElementById("discussionChat");
     div.scrollTop = div.scrollHeight - div.clientHeight;
+    document.getElementById("chatInput").focus();
 }
 
 function updateDisplayName() {
