@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ba59337863.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="http://fonts.cdnfonts.com/css/roteflora-2" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./images/OsUs_Favicon.png">
+    <title>OsUs A/S</title>
+    <style>
+        *{
+            font-family: 'Lobster', cursive;
+        }
+        
+        body{
+            overflow: hidden;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #profile::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #profile {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #files::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #files {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #discussions::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #discussions {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        #deleteUserCheckDiv{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        #deleteUserCheck{
+            text-align: center;
+            position: fixed;
+            top: 40%;
+            padding: 10px;
+            background-color: white;
+            border: solid black;
+        }
+    </style>
+</head>
+<body style="display: none;">
+    <div class="container-fluid">
+        <div class="row p-3 shadow align-items-center">
+            <div class="col-9">
+                <h1 >
+                    <a href="index.html" style="font-family: 'RoteFlora', sans-serif; color: black; text-decoration: none;">
+                        <i class="fas fa-globe-europe"></i>OsUsIntel
+                    </a>
+                </h1>
+            </div>
+            <div class="col-2">
+                <h5 id="showDisplayName" class="text-end" style="margin: 0px;"></h5>
+            </div>
+            <div class="col-1 text-center">
+                <button onclick="signout()" class="btn btn-dark">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-center" style="height: 90vh; color: #000000;">
+            <div class="col-2 shadow justify-content-start text-center" style="height: 90vh;">
+                <div class="row pt-4 d-block text-center">
+                    <a href="javascript:profilePage()" onmouseover="this.style.color = 'rgb(100, 100, 100)'" onmouseout="this.style.color = 'black'" style="text-decoration: none; color: black;">
+                        <h4 class="d-none d-md-block d-l-block d-lg-block d-xl-block d-xxl-block">Profile<i class="fas fa-user" style="margin-left: 1vw;"></i></h4>
+                        <h4 class="d-block d-md-none d-l-none d-lg-none d-xl-none d-xxl-none" style="font-size: 10px;">Profile<i class="fas fa-user" style="margin-left: 1vw;"></i></h4>
+                    </a>
+                </div>
+                <div class="row pt-4 d-block text-center">
+                    <a href="javascript:filesPage()" onmouseover="this.style.color = 'rgb(100, 100, 100)'" onmouseout="this.style.color = 'black'" style="text-decoration: none; color: black;">
+                        <h4 class="d-none d-md-block d-l-block d-lg-block d-xl-block d-xxl-block">Files<i class="fas fa-folder-open" style="margin-left: 1vw;"></i></h4>
+                        <h4 class="d-block d-md-none d-l-none d-lg-none d-xl-none d-xxl-none" style="font-size: 10px;">Files<i class="fas fa-folder-open" style="margin-left: 1vw;"></i></h4>
+                    </a>
+                </div>
+                <div class="row pt-4 d-block text-center">
+                    <a href="javascript:discussionsPage()" onmouseover="this.style.color = 'rgb(100, 100, 100)'" onmouseout="this.style.color = 'black'" style="text-decoration: none; color: black;">
+                        <h4 class="d-none d-md-block d-l-block d-lg-block d-xl-block d-xxl-block">Discussions<i class="fas fa-comments" style="margin-left: 1vw;"></i></h4>
+                        <h4 class="d-block d-md-none d-l-none d-lg-none d-xl-none d-xxl-none" style="font-size: 10px;">Discussions<i class="fas fa-comments" style="margin-left: 1vw;"></i></h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-10">
+                <!-- Profile Page -->
+                <div class="text-center p-5" id="profile" style="overflow-y: scroll; height: 90vh; display: none;">
+                    <div class="row d-flex justify-content-center" id="profileImage"></div>
+                    <br>
+                    <div class="row d-flex justify-content-center">
+                        <label for="imageUrl" class="form-label">Image Url <i class="fas fa-pen"></i></label>
+                        <input class="form-control" type="text" id="imageUrl" onchange="changeUrl()" placeholder="Image Url" style="height: 5vh; width: 20vw;">
+                    </div>
+                    <hr style="background-color: white; height: 10px;">
+                    <div class="row d-flex justify-content-center">
+                        <label for="imageUrl" class="form-label">Display Name <i class="fas fa-pen"></i></label>
+                        <input class="form-control" type="text" id="displayName" onchange="changeDisplayName()" placeholder="Display Name" style="height: 5vh; width: 20vw;">
+                    </div>
+                    <hr style="background-color: white; height: 20px;">
+                    <div class="row d-flex justify-content-center">
+                        <button class="btn btn-danger" style="height: 5vh; width: 10vw;" onclick="document.getElementById('deleteUserCheckDiv').style.display = 'flex'">Delete User</button>
+                    </div>
+                </div>
+                <!-- Files Page -->
+                <div class="text-center" id="files" style="overflow-y: scroll; height: 90vh; display: none;">
+                    <div class="d-flex justify-content-end p-3">
+                        <div class="col-8 d-flex justify-content-start align-items-center" style="padding-left: 3%;">
+                            <h3 class="d-flex" style="margin: 0px 3% 0px 0px;">File Manager</h3>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end align-items-center">
+                            <progress value="0" max="100" id="progressbar" style="margin-right: 3%; display: none;">0%</progress>
+                            <p style="padding: 0px; margin: 0px 3% 0px 0px; display: none; font-family: Arial;" id="uploadMessage"></p>
+                            <button class="btn btn-light border border-dark" style="margin-right: 3%;" onclick="reloadFiles()">Reload <i class="fas fa-retweet"></i></button>
+                            <input type="file" id="fileUploadInput" style="display: none;">
+                            <button class="btn btn-light border border-dark" style="margin-right: 8%;" onclick="document.getElementById('fileUploadInput').click()">Upload <i class="fas fa-upload"></i></button>
+                        </div>
+                    </div>
+                    <div id="filestorage" class="border border-dark text-start p-3" style="height: 82%; overflow-y: scroll; margin: 0px 3% 0px 3%;"></div>
+                </div>
+                <!-- Discussions Page -->
+                <div class="text-center" id="discussions" style="overflow-y: scroll; height: 90vh; display: none;">
+                    <div class="d-flex justify-content-end p-3">
+                        <div class="col-12 d-flex justify-content-start align-items-center" style="padding-left: 3%;">
+                            <h3 class="d-flex" style="margin: 0px 3% 0px 0px;">Discussions</h3>
+                        </div>
+                    </div>
+                    <div id="discussionChat" class="border border-dark text-start p-3" style="height: 70%; overflow-y: scroll; margin: 0px 3% 0px 3%;"></div>
+                    <div style="height: 8%; margin: 10px 3% 0px 3%;">
+                        <input type="text" id="chatInput" placeholder="" style="height: 100%;" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteUserCheckDiv" style="display: none;">
+        <div id="deleteUserCheck">
+            <h1 class="p-3">Are you sure you want to delete this user!</h1>
+            <button class="btn btn-secondary mb-3" onclick="document.getElementById('deleteUserCheckDiv').style.display = 'none'" style="height: 5vh; width: 10vw;">No</button>
+            <button class="btn btn-dark mb-3" style="height: 5vh; width: 10vw;" onclick="deleteUser()">Yes</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDt7g1ucsEUgwdNpVvOHWv1sJpbn05Klj0",
+            authDomain: "osus-e643e.firebaseapp.com",
+            projectId: "osus-e643e",
+            storageBucket: "osus-e643e.appspot.com",
+            messagingSenderId: "58407724258",
+            appId: "1:58407724258:web:b00d1644327e3271f3aabb",
+            databaseURL: "https://osus-e643e-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./scripts/loginCheck.js"></script>
+    <script src="./scripts/devportal/profile.js"></script>
+    <script src="./scripts/devportal/files.js"></script>
+    <script src="./scripts/devportal/chat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>
