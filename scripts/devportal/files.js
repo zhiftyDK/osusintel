@@ -6,24 +6,23 @@ function filesPage(){
 }
 
 //Load all files
-loadFiles();
+reloadFiles();
 
 function deleteFiles(file){
     firebase.storage().ref().child("/" + file).delete().then(() => {
         console.log("File Deleted!")
-        loadFiles();
+        reloadFiles();
     }).catch((error) => {
         console.log(error);
     });
 }
 
-function loadFiles(){
+function reloadFiles(){
     document.querySelectorAll("#fileItems").forEach(function(element){element.remove()});
     firebase.storage().ref().child('/').listAll()
     .then((res) => {
         res.items.forEach((fileRef) => {
             fileRef.getDownloadURL().then(function(url){
-                console.log(url);
                 const file = document.createElement("a");
                 file.href = url;
                 file.id = "fileItems"
@@ -104,7 +103,7 @@ document.getElementById("fileUploadInput").onchange = function(event) {
             document.getElementById("uploadMessage").style.display = "flex";
             document.getElementById("uploadMessage").style.color = "#00ff00";
             document.getElementById("uploadMessage").innerHTML = "Complete";
-            loadFiles();
+            reloadFiles();
         }
     );
 }

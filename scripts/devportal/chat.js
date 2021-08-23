@@ -7,21 +7,24 @@ function discussionsPage(){
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if(user){
-        if (user !== null) {
-            const photoURL = user.photoURL;
-            const displayName = user.displayName;
-            const email = user.email;
-            
-            if(displayName){
-                document.getElementById("chatInput").setAttribute("placeholder",displayName + ", Write a message!")
-            }
+function updateDisplayName() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user){
+            if (user !== null) {
+                const photoURL = user.photoURL;
+                const displayName = user.displayName;
+                const email = user.email;
+                
+                if(displayName){
+                    document.getElementById("chatInput").setAttribute("placeholder",displayName + ", Write a message!");
+                }
 
-            const uid = user.uid;
+                const uid = user.uid;
+            }
         }
-    }
-});
+    });
+}
+updateDisplayName();
 
 var chatInput = document.getElementById("chatInput");
 chatInput.addEventListener("keyup", function(event) {
@@ -61,7 +64,6 @@ chatInput.addEventListener("keyup", function(event) {
 
 firebase.database().ref('chats/').on('value', function(messages_object){
     if(messages_object.numChildren() != 0){
-        console.log(Object.values(messages_object.val()))
         document.querySelectorAll("#messageItems").forEach(function(element){element.remove()});
         for (let i = 1; i < Object.values(messages_object.val()).length + 1; i++) {
             const chatMessage = eval(`messages_object.val().message_${i}.message`);
@@ -73,6 +75,3 @@ firebase.database().ref('chats/').on('value', function(messages_object){
         }
     }
 })
-  
-
-//.split(",").join("<br>");

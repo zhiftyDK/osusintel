@@ -63,12 +63,12 @@ function changeDisplayName(){
                 displayName: document.getElementById("displayName").value
             }).then(() => {
                 console.log("SUCCESS Display Name");
+                document.getElementById("showDisplayName").innerHTML = document.getElementById("displayName").value;
+                updateDisplayName();
             }).catch((error) => {
                 console.log(error);
             });
 
-            document.getElementById("showDisplayName").innerHTML = document.getElementById("displayName").value;
-        
             const uid = user.uid;
         }
     });
