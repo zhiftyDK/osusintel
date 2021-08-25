@@ -115,13 +115,18 @@
                     <div class="row d-flex justify-content-center" id="profileImage"></div>
                     <br>
                     <div class="row d-flex justify-content-center">
-                        <label for="imageUrl" class="form-label">Image Url <i class="fas fa-pen"></i></label>
-                        <input class="form-control" type="text" id="imageUrl" onchange="changeUrl()" placeholder="Image Url" style="height: 5vh; width: 20vw;">
+                        <input type="file" id="imageUploadInput" style="display: none;">
+                        <button class="btn btn-light border border-dark" style="width: 10%;" onclick="document.getElementById('imageUploadInput').click()">Upload Image <i class="fas fa-upload"></i></button>
                     </div>
                     <hr style="background-color: white; height: 10px;">
                     <div class="row d-flex justify-content-center">
-                        <label for="imageUrl" class="form-label">Display Name <i class="fas fa-pen"></i></label>
+                        <label for="displayName" class="form-label">Display Name <i class="fas fa-pen"></i></label>
                         <input class="form-control" type="text" id="displayName" onchange="changeDisplayName()" placeholder="Display Name" style="height: 5vh; width: 20vw;">
+                    </div>
+                    <hr style="background-color: white; height: 10px;">
+                    <div class="row d-flex justify-content-center">
+                        <label for="userId" class="form-label">User Id <i class="fas fa-pen"></i></label>
+                        <input class="form-control" type="text" id="userId" placeholder="User Id" style="height: 5vh; width: 20vw;" readonly>
                     </div>
                     <hr style="background-color: white; height: 20px;">
                     <div class="row d-flex justify-content-center">

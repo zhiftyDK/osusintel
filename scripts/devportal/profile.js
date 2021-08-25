@@ -11,47 +11,66 @@ firebase.auth().onAuthStateChanged(function(user) {
             const photoURL = user.photoURL;
             const displayName = user.displayName;
             const email = user.email;
-
-            if(photoURL){
-                const photoURLRenderer = document.createElement("img");
-                photoURLRenderer.src = user.photoURL;
-                photoURLRenderer.style.width = "15vw"
-                photoURLRenderer.id = "photoURLRenderer";
-                document.getElementById("profileImage").appendChild(photoURLRenderer);
-                document.getElementById("imageUrl").value = user.photoURL;
-            }
-            
-            if(displayName){
-                document.getElementById("displayName").value = displayName;
-                document.getElementById("showDisplayName").innerHTML = displayName;
-            }
-
             const uid = user.uid;
+
+            const photoURLRenderer = document.createElement("img");
+            photoURLRenderer.src = photoURL;
+            photoURLRenderer.style.width = "15vw"
+            photoURLRenderer.id = "photoURLRenderer";
+            document.getElementById("profileImage").appendChild(photoURLRenderer);
+            document.getElementById("displayName").value = displayName;
+            document.getElementById("showDisplayName").innerHTML = displayName;
+            document.getElementById("userId").value = uid;
         }
     }
 });
 
-function changeUrl(){
+document.getElementById("imageUploadInput").onchange = function(event) {
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
-            user.updateProfile({
-                photoURL: document.getElementById("imageUrl").value
-            }).then(() => {
-                console.log("SUCCESS Image Url");
-            }).catch((error) => {
-                console.log(error);
-            }); 
-
-            document.getElementById("photoURLRenderer").remove();
-            const photoURLRenderer = document.createElement("img");
-            photoURLRenderer.src = document.getElementById("imageUrl").value;
-            photoURLRenderer.id = "photoURLRenderer";
-            photoURLRenderer.style.width = "15vw"
-            document.getElementById("profileImage").appendChild(photoURLRenderer);
-            document.getElementById("imageUrl").value = user.photoURL;
-        
+            const photoURL = user.photoURL;
+            const displayName = user.displayName;
+            const email = user.email;
             const uid = user.uid;
-            
+            console.log("." + document.getElementById("imageUploadInput").value.split(".").pop());
+            var fileList = event.target.files;
+            firebase.storage().ref().child("/profileImage/" + uid + "/" + uid + "." + document.getElementById("imageUploadInput").value.split(".").pop()).put(fileList[0]).then(function(snapshot){
+                console.log("Image uploaded")
+                firebase.storage().ref().child("/profileImage/" + uid + "/").listAll().then((res) => {
+                    res.items.forEach((fileRef) => {
+                        firebase.storage().ref().child("/" + fileRef._delegate._location.path_).delete().then(() => {
+                            console.log("File Deleted")
+                            importNewfile();
+                        }).catch((error) => {
+                            importNewfile();
+                        });
+                    });
+                })
+            })
+            function importNewfile(){
+                console.log("." + document.getElementById("imageUploadInput").value.split(".").pop());
+                var fileList = event.target.files;
+                firebase.storage().ref().child("/profileImage/" + uid + "/" + uid + "." + document.getElementById("imageUploadInput").value.split(".").pop()).put(fileList[0]).then(function(snapshot){
+                    console.log("Image uploaded")
+                    firebase.storage().ref().child("/profileImage/" + uid + "/").listAll().then((res) => {
+                        res.items.forEach((fileRef) => {
+                            fileRef.getDownloadURL().then(function(url){
+                                user.updateProfile({
+                                    photoURL: url
+                                }).then(() => {
+                                    document.getElementById("photoURLRenderer").remove();
+                                    const photoURLRenderer = document.createElement("img");
+                                    photoURLRenderer.src = url;
+                                    photoURLRenderer.id = "photoURLRenderer";
+                                    photoURLRenderer.style.width = "15vw"
+                                    document.getElementById("profileImage").appendChild(photoURLRenderer);
+                                })
+                            })
+                        });
+                    })
+                })   
+            }
+
         }
     });
 }
